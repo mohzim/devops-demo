@@ -1,6 +1,7 @@
 from flask import Flask, abort, jsonify
 import logging
 import sys
+import json
 
 # Create logger
 logger = logging.getLogger(__name__)
@@ -10,8 +11,6 @@ logger.setLevel(logging.INFO)
 handler = logging.StreamHandler(sys.stdout)
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 handler.setFormatter(formatter)
-
-# Add handler to the logger
 logger.addHandler(handler)
 
 logger.info("Starting Flask application")
@@ -19,6 +18,9 @@ logger.info("Starting Flask application")
 # Initialize Flask
 healthy = True
 app = Flask(__name__)
+
+def create_app():
+    return app    
 
 # Send Hello World
 @app.route("/")
@@ -42,5 +44,5 @@ def healthcheck():
 def toggle_health():
     global healthy
     healthy = not healthy
-    logger.info(f'Application ealth set to {healthy}')
+    logger.info(f'Application health set to {healthy}')
     return jsonify({'message': f'health set to {healthy}'}), 200
